@@ -1,6 +1,6 @@
 .jasmine {
   position: absolute;
-  top: var(--spawnTop, -60px)
+  top: -60px;
   width: 70px;
   animation: fall 8s linear forwards;
   pointer-events: none;
@@ -17,6 +17,7 @@
     opacity: 0;
   }
 }
+
 
 .mother-button {
   all: unset;
@@ -76,6 +77,7 @@
 
   .jasmine {
     width: 100px;
+    top: -85px;
     animation: fall 8s linear forwards;
   }
 }
