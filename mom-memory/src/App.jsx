@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import MuteButton from "./components/MuteButton";
 import JasmineRain from "./components/JasmineRain";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -7,13 +7,10 @@ import { DoubleSide } from "three";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 
-// === Floating image ===
 function FloatingImage({ url, position }) {
   const texture = useTexture(url);
   const meshRef = useRef();
-  useFrame(() => {
-    if (meshRef.current) meshRef.current.rotation.y += 0.002;
-  });
+  useFrame(() => { if (meshRef.current) meshRef.current.rotation.y += 0.002; });
   return (
     <mesh ref={meshRef} position={position}>
       <planeGeometry args={[2.5, 1.8]} />
@@ -23,10 +20,7 @@ function FloatingImage({ url, position }) {
 }
 
 function ParticleBackground() {
-  const particlesInit = async (main) => {
-    await loadFull(main);
-  };
-
+  const particlesInit = async (main) => { await loadFull(main); };
   return (
     <Particles
       id="tsparticles"
@@ -47,77 +41,46 @@ function ParticleBackground() {
   );
 }
 
+const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
+
 export default function App() {
-  // รูป: ใช้พาธจาก public/
-  const images = [
-    "/public/images/M1.jpg",
-    "/public/images/M2.jpg",
-    "/public/images/M3.jpg",
-    "/public/images/M4.jpg",
-    "/public/images/M5.jpg",
-    "/public/images/M6.jpg",
-    "/public/images/M7.jpg",
-    "/public/images/M8.jpg",
-    "/public/images/M9.jpg",
-    "/public/images/M10.jpg",
-    "/public/images/M11.jpg",
-    "/public/images/M12.jpg",
-    "/public/images/M13.jpg",
-    "/public/images/M14.jpg",
-    "/public/images/M15.jpg",
+  const sources = useMemo(() => ([
+    "images/M1.jpg","images/M2.jpg","images/M3.jpg","images/M4.jpg",
+    "images/M5.jpg","images/M6.jpg","images/M7.jpg","images/M8.JPG",
+    "images/M9.JPG","images/M10.JPG","images/M11.JPG","images/M12.jpg",
+    "images/M13.jpg","images/M14.jpg","images/M15.jpg",
 
-    "/public/images/M1.jpg",
-    "/public/images/M2.jpg",
-    "/public/images/M3.jpg",
-    "/public/images/M4.jpg",
-    "/public/images/M5.jpg",
-    "/public/images/M6.jpg",
-    "/public/images/M7.jpg",
-    "/public/images/M8.jpg",
-    "/public/images/M9.jpg",
-    "/public/images/M10.jpg",
-    "/public/images/M11.jpg",
-    "/public/images/M12.jpg",
-    "/public/images/M13.jpg",
-    "/public/images/M14.jpg",
-    "/public/images/M15.jpg",
+    "images/M1.jpg","images/M2.jpg","images/M3.jpg","images/M4.jpg",
+    "images/M5.jpg","images/M6.jpg","images/M7.jpg","images/M8.JPG",
+    "images/M9.JPG","images/M10.JPG","images/M11.JPG","images/M12.jpg",
+    "images/M13.jpg","images/M14.jpg","images/M15.jpg",
 
-    "/public/images/M1.jpg",
-    "/public/images/M2.jpg",
-    "/public/images/M3.jpg",
-    "/public/images/M4.jpg",
-    "/public/images/M5.jpg",
-    "/public/images/M6.jpg",
-    "/public/images/M7.jpg",
-    "/public/images/M8.jpg",
-    "/public/images/M9.jpg",
-    "/public/images/M10.jpg",
-    "/public/images/M11.jpg",
-    "/public/images/M12.jpg",
-    "/public/images/M13.jpg",
-    "/public/images/M14.jpg",
-    "/public/images/M15.jpg",
-  ];
+    "images/M1.jpg","images/M2.jpg","images/M3.jpg","images/M4.jpg",
+    "images/M5.jpg","images/M6.jpg","images/M7.jpg","images/M8.JPG",
+    "images/M9.JPG","images/M10.JPG","images/M11.JPG","images/M12.jpg",
+    "images/M13.jpg","images/M14.jpg","images/M15.jpg",
+  ].map(asset)), []);
 
-  const positions = images.map(() => [
-    (Math.random() - 0.5) * 20,
-    (Math.random() - 0.5) * 20,
-    (Math.random() - 0.5) * 20,
-  ]);
+  const positions = useMemo(
+    () => sources.map(() => [
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 20,
+    ]),
+    [sources]
+  );
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
-      {/* เพลงเริ่มเล่นแบบ mute+loop และมีปุ่มเปิด/ปิดเสียงมุมขวาบน */}
-      <MuteButton src="/public/images/motherday.mp3" />
-
+      <MuteButton src={asset("images/motherday.mp3")} />
       <ParticleBackground />
 
-      <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 75 }} dpr={[1, 1.5]}>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <OrbitControls enableZoom enablePan enableRotate />
 
-        {images.map((url, i) => (
+        {sources.map((url, i) => (
           <FloatingImage key={i} url={url} position={positions[i]} />
         ))}
 
