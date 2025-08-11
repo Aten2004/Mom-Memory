@@ -1,6 +1,6 @@
 .jasmine {
   position: absolute;
-  top: -60px;
+  top: var(--spawnTop, -60px)
   width: 70px;
   animation: fall 8s linear forwards;
   pointer-events: none;
@@ -76,7 +76,6 @@
 
   .jasmine {
     width: 100px;
-    top: -85px;
     animation: fall 8s linear forwards;
   }
 }
