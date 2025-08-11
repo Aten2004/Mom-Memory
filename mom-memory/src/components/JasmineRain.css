@@ -1,11 +1,10 @@
 .jasmine {
-  position: fixed;               /* ← อิง viewport ตลอด */
-  top: 0;                        /* ← เริ่มที่ขอบบนจอ */
-  width: clamp(40px, 3vw, 64px);
+  position: absolute;
+  top: -80px;
+  width: 30px;
   animation: fall 8s linear forwards;
   pointer-events: none;
   z-index: 1;
-  will-change: transform;        /* ช่วยเฟรมเรต */
 }
 
 @keyframes fall {
@@ -19,11 +18,11 @@
   }
 }
 
-/* ปุ่มเหมือนเดิม */
+
 .mother-button {
   all: unset;
   cursor: pointer;
-  position: fixed;               /* ให้ปุ่มยึดกับจอเช่นกัน */
+  position: absolute;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
@@ -42,7 +41,10 @@
   max-width: 90%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-.mother-button:hover { transform: translateX(-50%) scale(1.04); }
+
+.mother-button:hover {
+  transform: translateX(-50%) scale(1.04);
+}
 
 .button-text {
   font-size: 1.8rem;
@@ -50,6 +52,7 @@
   font-weight: bold;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
+
 .tap-hint {
   font-size: 1.05rem;
   color: #ffffffcc;
@@ -57,15 +60,25 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* มือถือ: ให้ยังเริ่มจากขอบบนเหมือนกัน แต่เพิ่มขนาดนิดหน่อยเพื่อให้เห็นชัดบนจอเล็ก */
+/* Responsive for mobile */
 @media (max-width: 480px) {
-  .mother-button { padding: 0.8rem 1.4rem; }
-  .button-text { font-size: 1rem; line-height: 1.8rem; }
-  .tap-hint { font-size: 0.85rem; }
+  .mother-button {
+    padding: 0.8rem 1.4rem;
+  }
+
+  .button-text {
+    font-size: 1rem;
+    line-height: 1.8rem;
+  }
+
+  .tap-hint {
+    font-size: 0.85rem;
+  }
 
   .jasmine {
-    top: 0;  /* เน้นอีกครั้งให้เริ่มที่ขอบบน */
-    /* มือถือ 56–80px โดยเฉลี่ย ~12vw */
-    width: clamp(56px, 12vw, 80px);
+    width: 100px;
+    top: -100px;
+    animation: fall 8s linear forwards;
   }
 }
+
