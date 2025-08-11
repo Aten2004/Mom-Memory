@@ -1,6 +1,6 @@
 .jasmine {
   position: absolute;
-  top: -60px;
+  top: var(--spawnTop, -60px);
   width: 70px;
   animation: fall 8s linear forwards;
   pointer-events: none;
@@ -62,18 +62,10 @@
 
 /* Responsive for mobile */
 @media (max-width: 480px) {
-  .mother-button {
-    padding: 0.8rem 1.4rem;
-  }
+  .mother-button { padding: 0.8rem 1.4rem; }
 
-  .button-text {
-    font-size: 1rem;
-    line-height: 1.8rem;
-  }
-
-  .tap-hint {
-    font-size: 0.85rem;
-  }
+  .button-text { font-size: 1rem; line-height: 1.8rem; }
+  .tap-hint { font-size: 0.85rem; }
 
   .jasmine {
     width: 100px;
