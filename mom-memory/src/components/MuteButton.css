@@ -1,0 +1,20 @@
+.mute-toggle{
+  position: fixed;
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(12px + env(safe-area-inset-right));
+  z-index: 2147483647;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  touch-action: manipulation;
+  pointer-events: auto;
+}
+.mute-toggle:active{ transform: scale(0.98); }
