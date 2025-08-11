@@ -1,30 +1,43 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import "./JasmineRain.css";
-import jasmineUrl from "../assets/jasmine1.png"; // ← สำคัญ: ให้ Vite จัดการพาธ
 
-export default function JasmineRain({ spawnOffset = -60 }) {
+export default function JasmineRain() {
   const [jasmines, setJasmines] = useState([]);
   const [clickCount, setClickCount] = useState(0);
 
   const dropJasmine = () => {
-    const batch = Array.from({ length: 15 }, () => ({
+    const newJasmines = Array.from({ length: 15 }, () => ({
       id: Math.random(),
       x: Math.random() * window.innerWidth,
       delay: Math.random() * 2,
     }));
-    setJasmines((p) => [...p, ...batch]);
+
+    setJasmines((prev) => [...prev, ...newJasmines]);
 
     setTimeout(() => {
-      setJasmines((p) => p.filter((j) => !batch.find((b) => b.id === j.id)));
+      setJasmines((prev) =>
+        prev.filter((j) => !newJasmines.find((nj) => nj.id === j.id))
+      );
     }, 12000);
 
-    setClickCount((n) => {
-      const next = n + 1;
-      if (next % 5 === 0) {
-        confetti({ particleCount: 120, spread: 90, angle: 90, origin: { y: 0.6 } });
+    // ✅ เพิ่มนับจำนวนครั้ง
+    setClickCount((prev) => {
+      const newCount = prev + 1;
+
+      // 🎆 ยิง confetti ทุก 5 ครั้ง
+      if (newCount % 5 === 0) {
+        confetti({
+          particleCount: 120,
+          spread: 90,
+          angle: 90,
+          origin: { y: 0.6 },
+          colors: ["#ffffff", "#A1E3F9", "#FFC0CB", "#ADD8E6"],
+          shapes: ["circle"],
+        });
       }
-      return next;
+
+      return newCount;
     });
   };
 
@@ -33,14 +46,9 @@ export default function JasmineRain({ spawnOffset = -60 }) {
       {jasmines.map((j) => (
         <img
           key={j.id}
-          src={jasmineUrl}
+          src="images/jasmine1.png"
           className="jasmine"
-          style={{
-            left: `${j.x}px`,
-            animationDelay: `${j.delay}s`,
-            ["--spawnTop"]: `${spawnOffset}px`, // คุมความสูงเกิดบนมือถือ/PC
-          }}
-          alt=""
+          style={{ left: `${j.x}px`, animationDelay: `${j.delay}s` }}
         />
       ))}
 
