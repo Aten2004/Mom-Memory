@@ -41,10 +41,8 @@ function ParticleBackground() {
   );
 }
 
-const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
-
 export default function App() {
-  const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
+const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
 
 const sources = useMemo(() => ([
   "images/M1.jpg","images/M2.jpg","images/M3.jpg","images/M4.jpg",
