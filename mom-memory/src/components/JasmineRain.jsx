@@ -2,42 +2,34 @@ import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import "./JasmineRain.css";
 
-export default function JasmineRain() {
+// helper อิง BASE_URL (จำเป็นบน GitHub Pages)
+const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
+
+export default function JasmineRain({ spawnOffset = -60 }) {
   const [jasmines, setJasmines] = useState([]);
   const [clickCount, setClickCount] = useState(0);
 
   const dropJasmine = () => {
-    const newJasmines = Array.from({ length: 15 }, () => ({
+    const batch = Array.from({ length: 15 }, () => ({
       id: Math.random(),
       x: Math.random() * window.innerWidth,
       delay: Math.random() * 2,
     }));
 
-    setJasmines((prev) => [...prev, ...newJasmines]);
+    setJasmines((prev) => [...prev, ...batch]);
 
+    // ลบดอกชุดนี้ออกหลัง 12s
     setTimeout(() => {
-      setJasmines((prev) =>
-        prev.filter((j) => !newJasmines.find((nj) => nj.id === j.id))
-      );
+      setJasmines((prev) => prev.filter(j => !batch.find(b => b.id === j.id)));
     }, 12000);
 
-    // ✅ เพิ่มนับจำนวนครั้ง
-    setClickCount((prev) => {
-      const newCount = prev + 1;
-
-      // 🎆 ยิง confetti ทุก 5 ครั้ง
-      if (newCount % 5 === 0) {
-        confetti({
-          particleCount: 120,
-          spread: 90,
-          angle: 90,
-          origin: { y: 0.6 },
-          colors: ["#ffffff", "#A1E3F9", "#FFC0CB", "#ADD8E6"],
-          shapes: ["circle"],
-        });
+    // ยิง confetti ทุก 5 ครั้ง
+    setClickCount((n) => {
+      const next = n + 1;
+      if (next % 5 === 0) {
+        confetti({ particleCount: 120, spread: 90, angle: 90, origin: { y: 0.6 } });
       }
-
-      return newCount;
+      return next;
     });
   };
 
@@ -46,9 +38,14 @@ export default function JasmineRain() {
       {jasmines.map((j) => (
         <img
           key={j.id}
-          src="/images/jasmine1.png"
+          src={asset("images/jasmine1.png")}
           className="jasmine"
-          style={{ left: `${j.x}px`, animationDelay: `${j.delay}s` }}
+          style={{
+            left: `${j.x}px`,
+            animationDelay: `${j.delay}s`,
+            ["--spawnTop"]: `${spawnOffset}px`, // คุมตำแหน่งเริ่มตก
+          }}
+          alt=""
         />
       ))}
 
