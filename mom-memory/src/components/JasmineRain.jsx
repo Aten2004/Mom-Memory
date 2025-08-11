@@ -21,11 +21,8 @@ export default function JasmineRain() {
       );
     }, 12000);
 
-    // ✅ เพิ่มนับจำนวนครั้ง
     setClickCount((prev) => {
       const newCount = prev + 1;
-
-      // 🎆 ยิง confetti ทุก 5 ครั้ง
       if (newCount % 5 === 0) {
         confetti({
           particleCount: 120,
@@ -36,7 +33,6 @@ export default function JasmineRain() {
           shapes: ["circle"],
         });
       }
-
       return newCount;
     });
   };
@@ -49,6 +45,7 @@ export default function JasmineRain() {
           src="images/jasmine1.png"
           className="jasmine"
           style={{ left: `${j.x}px`, animationDelay: `${j.delay}s` }}
+          alt=""
         />
       ))}
 
