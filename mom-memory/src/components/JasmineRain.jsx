@@ -45,7 +45,7 @@ export default function JasmineRain({ spawnOffset = -60 }) {
       ))}
 
       <button className="mother-button" onClick={dropJasmine}>
-        <span className="button-text">🩵 Hfddddddddder's Day 🩵</span>
+        <span className="button-text">🩵 Happy Mother's Day 🩵</span>
         <span className="tap-hint">✨ Try Pressing ✨</span>
       </button>
     </>
