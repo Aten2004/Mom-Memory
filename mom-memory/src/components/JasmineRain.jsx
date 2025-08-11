@@ -1,8 +1,12 @@
+// JasmineRain.jsx
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import "./JasmineRain.css";
 
-export default function JasmineRain() {
+// helper อิง path บน GitHub Pages
+const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
+
+export default function JasmineRain({ spawnOffset = -60 }) {
   const [jasmines, setJasmines] = useState([]);
   const [clickCount, setClickCount] = useState(0);
 
@@ -21,12 +25,9 @@ export default function JasmineRain() {
       );
     }, 12000);
 
-    // ✅ เพิ่มนับจำนวนครั้ง
     setClickCount((prev) => {
-      const newCount = prev + 1;
-
-      // 🎆 ยิง confetti ทุก 5 ครั้ง
-      if (newCount % 5 === 0) {
+      const next = prev + 1;
+      if (next % 5 === 0) {
         confetti({
           particleCount: 120,
           spread: 90,
@@ -36,8 +37,7 @@ export default function JasmineRain() {
           shapes: ["circle"],
         });
       }
-
-      return newCount;
+      return next;
     });
   };
 
@@ -46,9 +46,14 @@ export default function JasmineRain() {
       {jasmines.map((j) => (
         <img
           key={j.id}
-          src="/images/jasmine1.png"
+          src={asset("images/jasmine1.png")}     {/* ← เปลี่ยนเป็น BASE_URL */}
           className="jasmine"
-          style={{ left: `${j.x}px`, animationDelay: `${j.delay}s` }}
+          style={{
+            left: `${j.x}px`,
+            animationDelay: `${j.delay}s`,
+            // ใช้ CSS var คุมความสูงเริ่มตก
+            "--spawnTop": `${spawnOffset}px`,
+          }}
         />
       ))}
 
